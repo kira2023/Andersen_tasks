@@ -1,0 +1,31 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  
+.content-wrapper{
+    width: 20%;
+    margin: auto;
+}
+.error{
+    color: red;
+}
+.data-wrapper{
+    display: flex;
+}
+.parameter-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.parameter{
+
+}
+.value-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.value{
+
+}
