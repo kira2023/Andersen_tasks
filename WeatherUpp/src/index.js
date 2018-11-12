@@ -1,8 +1,15 @@
 const searchInput = document.querySelector('.search-input');
 const searchButton = document.querySelector('.search-button');
-const valueCity = document.querySelector('.value-city');
-const valueTemp = document.querySelector('.value-temperature');
-const valuePress = document.querySelector('.value-pressure');
+const valueCity = document.querySelector('.city-name');
+const valueCountry = document.querySelector('.country-name');
+const description = document.querySelector('.description');
+const valueTemp = document.querySelector('.celsius-num');
+const valuePress = document.querySelector('.pressure-value');
+const valueHum = document.querySelector('.humidity-value');
+const valueWind = document.querySelector('.wind-value');
+const valueTempMin = document.querySelector('.temp-value-min');
+const valueTempMax= document.querySelector('.temp-value-max');
+
 const error = document.querySelector('.error');
 
 searchButton.addEventListener("click", searchWeather);
@@ -12,8 +19,16 @@ function processingWeather(data) {
         error.innerText = '';
 
         valueCity.innerText = data.name;
-        valueTemp.innerText = data.main.temp;
+        valueCountry.innerText = data.sys.country;
+        valueTemp.innerText = convertFromKelvintoCelsius(data.main.temp);
         valuePress.innerText = data.main.pressure;
+        valueHum.innerText = data.main.humidity;
+        valueWind.innerText = data.wind.speed;
+        description.innerText = data.weather[0].main;
+        valueTempMin.innerText = convertFromKelvintoCelsius(data.main.temp_min);
+        valueTempMax.innerText = convertFromKelvintoCelsius(data.main.temp_max);
+
+        console.log(data);
     } else {
         error.innerText = 'Sorry, weather for this city not found('
     }
@@ -31,4 +46,8 @@ function searchWeather() {
             })
             .then(processingWeather);
     } 
+}
+
+function convertFromKelvintoCelsius(num){
+    return Math.round(num - 273.15);
 }
