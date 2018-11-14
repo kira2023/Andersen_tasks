@@ -8,11 +8,17 @@ const valuePress = document.querySelector('.pressure-value');
 const valueHum = document.querySelector('.humidity-value');
 const valueWind = document.querySelector('.wind-value');
 const valueTempMin = document.querySelector('.temp-value-min');
-const valueTempMax= document.querySelector('.temp-value-max');
+const valueTempMax = document.querySelector('.temp-value-max');
+const imgWeather = document.querySelector('.weather-img');
+const blockView = document.querySelector('.block-view');
+const spinner = document.querySelector('.spinner');
 
 const error = document.querySelector('.error');
 
+const enterKeyCode = 13;
+
 searchButton.addEventListener("click", searchWeather);
+searchInput.addEventListener('keyup', keyPressHandler);
 
 function processingWeather(data) {
     if (data.name) {
@@ -20,14 +26,16 @@ function processingWeather(data) {
 
         valueCity.innerText = data.name;
         valueCountry.innerText = data.sys.country;
-        valueTemp.innerText = convertFromKelvintoCelsius(data.main.temp);
+        valueTemp.innerText = data.main.temp;
         valuePress.innerText = data.main.pressure;
         valueHum.innerText = data.main.humidity;
         valueWind.innerText = data.wind.speed;
         description.innerText = data.weather[0].main;
-        valueTempMin.innerText = convertFromKelvintoCelsius(data.main.temp_min);
-        valueTempMax.innerText = convertFromKelvintoCelsius(data.main.temp_max);
-
+        valueTempMin.innerText = data.main.temp_min;
+        valueTempMax.innerText = data.main.temp_max;
+        imgWeather.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+        spinner.classList.add('block-view');
+        blockView.classList.remove('block-view');
         console.log(data);
     } else {
         error.innerText = 'Sorry, weather for this city not found('
@@ -35,11 +43,13 @@ function processingWeather(data) {
 }
 
 function searchWeather() {
-    const searchInputValue = searchInput.value;
+    const searchInputValue = searchInput.value.trim();
 
     if (searchInputValue) {
-        const srsUrl = `http://api.openweathermap.org/data/2.5/weather?q=${searchInputValue}&APPID=def1f3aa27892f05c5bc3dd1e69e4309`;
+        const srsUrl = `http://api.openweathermap.org/data/2.5/weather?q=${searchInputValue}&units=metric&APPID=def1f3aa27892f05c5bc3dd1e69e4309`;
 
+        spinner.classList.remove('block-view');
+        
         fetch(srsUrl)
             .then(function (response) {
                 return response.json();
@@ -48,6 +58,8 @@ function searchWeather() {
     } 
 }
 
-function convertFromKelvintoCelsius(num){
-    return Math.round(num - 273.15);
+function keyPressHandler(event) {
+    if(event.keyCode === enterKeyCode){
+        searchWeather();
+    }
 }

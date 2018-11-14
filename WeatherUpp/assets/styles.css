@@ -52,9 +52,10 @@ body{
     width: 80%;
     font-size: 24px;
     color: red;
+    text-align: center;
 }
 .city-wrapper{
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 
     display: flex;
     flex-direction: column;
@@ -76,9 +77,11 @@ body{
     align-items: center;
 }
 .weather-img{
-    font-size: 60px;
+    width: 100px;
+    height: 100px;
+    /* font-size: 60px;
     color: black;
-    margin-right: 50px;
+    margin-right: 50px; */
 }
 .celsius-num{
     font-size: 80px;
@@ -104,7 +107,7 @@ body{
 }
 .data-item{
     width: 43%;
-    height: 150px;
+    height: 145px;
     margin: 5px;
     padding: 5px;
     background-color: rgba(0, 0, 0, 0.851);
@@ -117,7 +120,7 @@ body{
 .data-item__img{
     width: 70px;
     height: 70px;
-    font-size: 46px;
+    font-size: 40px;
     
     display: flex;
     justify-content: center;
@@ -138,4 +141,11 @@ body{
 }
 .temp-value{
     font-size: 35px;
+}
+.block-view{
+    display: none;
+}
+.spinner{
+    font-size: 40px;
+    text-align: center;
 }
