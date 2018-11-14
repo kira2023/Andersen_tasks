@@ -34,9 +34,8 @@ function processingWeather(data) {
         valueTempMin.innerText = data.main.temp_min;
         valueTempMax.innerText = data.main.temp_max;
         imgWeather.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-        spinner.classList.add('block-view');
+
         blockView.classList.remove('block-view');
-        console.log(data);
     } else {
         error.innerText = 'Sorry, weather for this city not found('
     }
@@ -54,7 +53,9 @@ function searchWeather() {
             .then(function (response) {
                 return response.json();
             })
-            .then(processingWeather);
+            .then(processingWeather)
+            .catch( () => error.innerText = 'Сonnection error! Try again later.' )
+            .finally( () =>  spinner.classList.add('block-view') );
     } 
 }
 
