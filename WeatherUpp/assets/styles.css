@@ -142,7 +142,7 @@ body{
 .temp-value{
     font-size: 35px;
 }
-.block-view{
+.hide{
     display: none;
 }
 .spinner{
