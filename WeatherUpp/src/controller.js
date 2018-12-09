@@ -1,23 +1,26 @@
-(function appController() {
+function AppController(view, model) {
+    this.view = view;
+    this.model = model;
+};
 
-    const view = appView();
-    const model = appModel();
+AppController.prototype.processingWeather = function(searchStr) {
+    this.view.manageSpinner(true);
+    this.model.searchWeather(searchStr)
+        .then((data) => {
+            this.view.renderWeather(data);
+        })
+        .catch((error) => {
+            this.view.renderError()
+        })
+        .finally(() => this.view.manageSpinner(false));
+};
 
-    function init() {
-        view.onSearchWeather(processingWeather);
-    }
+AppController.prototype.init = function() {
+    this.view.onSearchWeather((searchStr) => this.processingWeather(searchStr));
+};
 
-    function processingWeather(searchStr) {
-        view.manageSpinner(true);
-        model.searchWeather(searchStr)
-            .then((data) => {
-                view.renderWeather(data);
-            })
-            .catch((error) => {
-                view.renderError()
-            })
-            .finally(() => view.manageSpinner(false));
-    }
+const view = new AppView();
+const model = new AppModel();
 
-    init()
-})()
+const controller =  new AppController(view, model);
+controller.init();

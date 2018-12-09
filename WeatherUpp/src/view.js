@@ -1,76 +1,78 @@
-function appView() {
+function BaseView(){};
 
-    const searchInput = document.querySelector('.search-input');
-    const searchButton = document.querySelector('.search-button');
-    const valueCity = document.querySelector('.city-name');
-    const valueCountry = document.querySelector('.country-name');
-    const description = document.querySelector('.description');
-    const valueTemp = document.querySelector('.celsius-num');
-    const valuePress = document.querySelector('.pressure-value');
-    const valueHum = document.querySelector('.humidity-value');
-    const valueWind = document.querySelector('.wind-value');
-    const valueTempMin = document.querySelector('.temp-value-min');
-    const valueTempMax = document.querySelector('.temp-value-max');
-    const imgWeather = document.querySelector('.weather-img');
-    const contentView = document.querySelector('.content');
-    const spinner = document.querySelector('.spinner');
-    
-    const error = document.querySelector('.error');
-    
-    const enterKeyCode = 13;
+BaseView.prototype.getElement = function(selector){
+    return document.querySelector(selector);
+}
+BaseView.prototype.render = function(element, content){
+    element.innerHTML = content;
+}
 
-    function onSearchWeather(callback) {
-        searchButton.addEventListener('click', () => {
-            const searchStr = searchInput.value.trim();
+function AppView() {
+
+    this.searchInput = this.getElement('.search-input');
+    this.searchButton = this.getElement('.search-button');
+    this.valueCity = this.getElement('.city-name');
+    this.valueCountry = this.getElement('.country-name');
+    this.description = this.getElement('.description');
+    this.valueTemp = this.getElement('.celsius-num');
+    this.valuePress = this.getElement('.pressure-value');
+    this.valueHum = this.getElement('.humidity-value');
+    this.valueWind = this.getElement('.wind-value');
+    this.valueTempMin = this.getElement('.temp-value-min');
+    this.valueTempMax = this.getElement('.temp-value-max');
+    this.imgWeather = this.getElement('.weather-img');
+    this.contentView = this.getElement('.content');
+    this.spinner = this.getElement('.spinner');
+    
+    this.error = this.getElement('.error');  
+};
+
+    AppView.prototype = Object.create(BaseView.prototype);
+    AppView.prototype.constructor = AppView;
+
+    AppView.prototype.enterKeyCode = 13;
+    AppView.prototype.onSearchWeather = function(callback) {
+        this.searchButton.addEventListener('click', () => {
+            const searchStr = this.searchInput.value.trim();
             callback(searchStr);
         });
 
-        searchInput.addEventListener('keyup', (event) => {
-            if (event.keyCode === enterKeyCode) { 
-                const searchStr = searchInput.value.trim();
+        this.searchInput.addEventListener('keyup', (event) => {
+            if (event.keyCode === this.enterKeyCode) { 
+                const searchStr = this.searchInput.value.trim();
                 callback(searchStr);
             }
         });
-    }
-
-    function renderWeather(data) {
+    };
+    AppView.prototype.renderWeather = function(data) {
         if (data.name) {
-            error.innerText = '';
-    
-            valueCity.innerText = data.name;
-            valueCountry.innerText = data.sys.country;
-            valueTemp.innerText = data.main.temp;
-            valuePress.innerText = data.main.pressure;
-            valueHum.innerText = data.main.humidity;
-            valueWind.innerText = data.wind.speed;
-            description.innerText = data.weather[0].main;
-            valueTempMin.innerText = data.main.temp_min;
-            valueTempMax.innerText = data.main.temp_max;
-            imgWeather.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-    
-            contentView.classList.remove('hide');
-        } else {
-            error.innerText = 'Sorry, weather for this city not found('
-        }
-    }
 
-    function manageSpinner(isSpinnerDisplay) {
+            this.render(this.error, '');
+                
+            this.render(this.valueCity, data.name);
+            this.render(this.valueCountry, data.sys.country);
+            this.render(this.valueTemp, data.main.temp);
+            this.render(this.valuePress, data.main.pressure);
+            this.render(this.valueHum, data.main.humidity);
+            this.render(this.valueWind, data.wind.speed);
+            this.render(this.description, data.weather[0].main);
+            this.render(this.valueTempMin, data.main.temp_min);
+            this.render(this.valueTempMax, data.main.temp_max);
+
+            this.imgWeather.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+    
+            this.contentView.classList.remove('hide');
+        } else {
+            this.render(this.error, 'Sorry, weather for this.city not found =( ');
+        }
+    };
+    AppView.prototype.manageSpinner = function(isSpinnerDisplay) {
         if (isSpinnerDisplay) {
-            spinner.classList.remove('hide');
+            this.spinner.classList.remove('hide');
         } else {
-            spinner.classList.add('hide');
+            this.spinner.classList.add('hide');
         }
-    }
-
-    function renderError() {
-        error.innerText = 'Сonnection error! Try again later.';
-    }
-
-    return {
-        onSearchWeather: onSearchWeather,
-        renderWeather: renderWeather,
-        manageSpinner: manageSpinner,
-        renderError: renderError
-    }
-
-}
+    };
+    AppView.prototype.renderError = function () {
+        this.render( this.error, 'Сonnection error! Try again later.');
+    };
