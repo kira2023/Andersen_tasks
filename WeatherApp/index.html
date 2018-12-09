@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="./assets/weather-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link href="https://fonts.googleapis.com/css?family=Acme|Allerta+Stencil|Patrick+Hand" rel="stylesheet">
+  <title>Weather City</title>
+  <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+  <main>
+    <div class="content-wrapper">
+      <h1 class="content-title">WEATHER CITY</h1>
+      <div class="search-wrapper">
+        <input class="search-input" type="search" placeholder="Enter city...">
+        <button class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <div class="error"></div>
+      </div>
+      <div class="content hide">
+        <div class="city-wrapper">
+          <h2 class="city-name"></h2>
+          <span class="country-name"></span>
+          <div class="temp-wrapper">
+            <img class="weather-img" src="" alt="weather_img">
+            <span class="celsius-num"></span>
+            <div class="celsius-img">
+              <i class="wi wi-celsius"></i>
+            </div>
+          </div>
+          <h3 class="description"></h3>
+        </div>
+        <div class="data-wrapper">
+          <div class="data-item">
+            <div class="data-item__img">
+              <i class="wi wi-thermometer"></i>
+            </div>
+            <h3 class="data-item__title">Pressure</h3>
+            <span class="data-item__value pressure-value"></span><span>hPa</span>
+          </div>
+          <div class="data-item">
+            <div class="data-item__img">
+              <i class="wi wi-humidity"></i>
+            </div>
+            <h3 class="data-item__title">Humidity</h3>
+            <span class="data-item__value humidity-value"></span><span>%</span>
+          </div>
+          <div class="data-item">
+            <div class="data-item__img">
+              <i class="wi wi-strong-wind"></i>
+            </div>
+            <h3 class="data-item__title">Wind</h3>
+            <span class="data-item__value wind-value"> </span><span>meter/sec</span>
+          </div>
+          <div class="data-item">
+            <div class="data-item__elem">
+              <i class="wi wi-direction-down"></i>
+              <span class="temp-name">temp min</span>
+              <span class="temp-value temp-value-min"></span>
+              <i class="wi wi-degrees"></i>
+            </div>
+            <div class="data-item__elem">
+              <i class="wi wi-direction-up"></i>
+              <span class="temp-name">temp max</span>
+              <span class="temp-value temp-value-max"></span>
+              <i class="wi wi-degrees"></i>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="spinner hide">
+      <i class="fa fa-spinner fa-pulse" aria-hidden="true"></i>
+    </div>
+  </main>
+  <script src="./src/model.js"></script>
+  <script src="./src/view.js"></script>
+  <script src="./src/controller.js"></script>
+</body>
+
+</html>
