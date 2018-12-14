@@ -55,11 +55,17 @@ function AppView() {
         this.searchInput.addEventListener('keyup', (event) => {
             if (event.keyCode !== this.enterKeyCode) { 
                 const inputValue = this.searchInput.value.trim();
-                if (!inputValue || inputValue === lastSearchStr ) {
+                if (inputValue === lastSearchStr ) {
                     return;
                 } 
                 lastSearchStr = inputValue;
                 clearTimeout(timeId);
+
+                if(!lastSearchStr){
+                    this.renderCity(false);
+                    return;
+                }
+
                 timeId  = setTimeout(() => callback(lastSearchStr), 1000);
             }
         });
