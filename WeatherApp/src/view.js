@@ -66,7 +66,7 @@ function AppView() {
                     return;
                 }
 
-                timeId  = setTimeout(() => callback(lastSearchStr), 1000);
+                timeId  = setTimeout(() => callback(lastSearchStr), 500);
             }
         });
     };
@@ -106,16 +106,13 @@ function AppView() {
     };
 
     AppView.prototype.renderCity = function(data){
+        let content = ''; 
         if (data) {       
-            let content = '';      
             data.forEach(item => {
                 content += `<li class="dropdown__item">${item.city}</li>`
             });
-            this.render(this.dropdown, content);
-        } else{
-            content =  ' ';
-            this.render(this.dropdown, content);
         }
+        this.render(this.dropdown, content);
     };
 
     AppView.prototype.manageSpinner = function(isSpinnerDisplay) {
