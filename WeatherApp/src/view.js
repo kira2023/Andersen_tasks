@@ -23,6 +23,7 @@ function AppView() {
     this.imgWeather = this.getElement('.weather-img');
     this.contentView = this.getElement('.content');
     this.spinner = this.getElement('.spinner');
+    this.dropdown = this.getElement('.dropdown');
     
     this.error = this.getElement('.error');  
 };
@@ -35,15 +36,46 @@ function AppView() {
         this.searchButton.addEventListener('click', () => {
             const searchStr = this.searchInput.value.trim();
             callback(searchStr);
+            this.renderCity(false);
         });
 
         this.searchInput.addEventListener('keyup', (event) => {
             if (event.keyCode === this.enterKeyCode) { 
                 const searchStr = this.searchInput.value.trim();
                 callback(searchStr);
+                this.renderCity(false);
             }
         });
     };
+    
+    AppView.prototype.onSearchCity = function(callback) {
+        let lastSearchStr;
+        let timeId;
+
+        this.searchInput.addEventListener('keyup', (event) => {
+            if (event.keyCode !== this.enterKeyCode) { 
+                const inputValue = this.searchInput.value.trim();
+                if (!inputValue || inputValue === lastSearchStr ) {
+                    return;
+                } 
+                lastSearchStr = inputValue;
+                clearTimeout(timeId);
+                timeId  = setTimeout(() => callback(lastSearchStr), 1000);
+            }
+        });
+    };
+
+    AppView.prototype.onSelectCity = function(callback) {
+        this.dropdown.addEventListener('click', (event) => {
+            const selectedCity = event.target.innerText;
+            if(selectedCity){
+                this.searchInput.value = selectedCity;
+                callback(selectedCity);
+                this.renderCity(false);
+            }
+        })
+    }
+
     AppView.prototype.renderWeather = function(data) {
         if (data.name) {
 
@@ -63,9 +95,23 @@ function AppView() {
     
             this.contentView.classList.remove('hide');
         } else {
-            this.render(this.error, 'Sorry, weather for this.city not found =( ');
+            this.render(this.error, 'Sorry, weather for this city not found =( ');
         }
     };
+
+    AppView.prototype.renderCity = function(data){
+        if (data) {       
+            let content = '';      
+            data.forEach(item => {
+                content += `<li class="dropdown__item">${item.city}</li>`
+            });
+            this.render(this.dropdown, content);
+        } else{
+            content =  ' ';
+            this.render(this.dropdown, content);
+        }
+    };
+
     AppView.prototype.manageSpinner = function(isSpinnerDisplay) {
         if (isSpinnerDisplay) {
             this.spinner.classList.remove('hide');

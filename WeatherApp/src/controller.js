@@ -15,8 +15,23 @@ AppController.prototype.processingWeather = function(searchStr) {
         .finally(() => this.view.manageSpinner(false));
 };
 
+AppController.prototype.processingCity = function(searchStr) {
+    this.model.searchCity(searchStr)
+        .then((data) => {
+            this.view.renderCity(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            this.view.renderError()
+
+        })
+};
+
 AppController.prototype.init = function() {
     this.view.onSearchWeather((searchStr) => this.processingWeather(searchStr));
+    this.view.onSearchCity((searchStr) => this.processingCity(searchStr));
+    this.view.onSelectCity((searchStr) => this.processingWeather(searchStr));
 };
 
 const view = new AppView();
