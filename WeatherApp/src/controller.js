@@ -19,12 +19,10 @@ AppController.prototype.processingCity = function(searchStr) {
     this.model.searchCity(searchStr)
         .then((data) => {
             this.view.renderCity(data);
-            console.log(data);
         })
         .catch((error) => {
             console.log(error);
             this.view.renderError()
-
         })
 };
 
